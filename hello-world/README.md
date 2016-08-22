@@ -2,11 +2,15 @@
 
 This is a basic docker container with an express app. There is some docker commands to manage the state.
 
-### Run the container
-
+### Create container
 ```sh
 $ docker build -t nodebasic .
 $ docker images
+```
+
+### Run the container
+
+```sh
 $ docker run --name basic -p 8090:8080 nodebasic
 $ docker ps
 ```
