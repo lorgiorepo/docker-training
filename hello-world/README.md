@@ -74,3 +74,8 @@ Login inside the container:
 $ docker exec -it basic bash
 $ exit
 ```
+
+```sh
+$ docker run -it ubuntu bash
+$ exit
+```
