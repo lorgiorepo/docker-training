@@ -1,0 +1,47 @@
+Dockerfiles:
+
+- Provee una forma mas efectiva de generar imagenes en vez de utilizar "docker commit"
+
+
+FROM: Le dice a Dockerfile cual va ser la imagen base
+RUN: Se puede ejecutar varios comandos, estos pueden ser comandos shell
+
+Creando un archivo dockerfile.
+
+1. Contenido de un Dockerfile, la bandera y indica que no pida confirmacion para
+instalar los paquetes.
+
+/*
+FROM ubuntu
+RUN apt-get install -y curl
+RUN apt-get install -y vim
+*/
+
+2. Creando la imagen, asumiendo que estamos en la misma ruta. Este proceso
+descargara todo el software necesario que fue especificado en el archivo Dockerfile.
+
+$ docker build .
+
+3. Al final del proceso de creacion de imagen te entrega el identificador de la
+imagen, luego procedemos a visualizar las imagenes creadas. Al ejecutar el comando
+docker hace sort  de las imagenes.
+
+$ docker images
+
+4. Una vez creada la imagen, podemos ejecutar comandos sobre ella, para ello
+accedemos de forma interactiva, como no hemos creado un nombre o tag para la imagen
+podemos referenciarla usando su id.
+La orden bash es el comando a ejecutar sobre la imagen.
+
+$ docker run -ti b53525dec7dc bash
+
+5. Usar un id para ejecutar una imagen no es representativo, por lo tanto si queremos
+asignarle un nombre tenemos que usar la instruccion -t.
+
+$ docker build -t ubuntu_curl_vim .
+
+6. Al ejecutar el proceso docker no necesita descargar lo que esta dentro del contenido
+Dockerfile ya que lo tiene en cache. como resultado final docker no cambia el id de la
+imagen "b53525dec7dc" y asigna el nombre "ubuntu_curl_vim" para ese mismo identificador.
+
+$ docker images
