@@ -1,0 +1,41 @@
+Docker cache.
+
+Docker tiene un mecanismo que se llama el build cache, el que guarda un snapshot
+de cada imagen que cada instruccion.
+Ante de ejecutar un paso, docker chequea si la instruccion se encuentra en el
+cache teniendo en cuenta el orden original.
+Si la condicion anterior se cumple, docker utiliza la cache en vez de ejecutar
+el paso nuevamente.
+Docker utiliza comparacion de string exactas para chequear con la cache.
+Simplemente cambiando el orden de las instrucciones la cache se invalida.
+
+Ejemplo:
+
+Si queremos crear nuevamente nuestro contenedor.
+
+$ docker build -t ubuntu_vim_curl .
+
+Sending build context to Docker daemon 2.048 KB
+Step 1 : FROM ubuntu
+ - - -> e17b5fe5200a
+Step 2 : RUN apt-get install -y curl
+ - - -> Using cache
+ - - -> d066640fccf7
+Step 3 : RUN apt-get install -y vim
+ - - -> Using cache
+ - - -> d38437de2367
+Successfully built b53525dec7dc
+
+Lo que pasa en estos passos es: En cada paso docker necesita un contendor.
+Docker toma la imagen base, crea un contenedor, ejecuta un comando, genera la imagen intermedia.
+ejecuta la siguiente sintaxis, crea un contenedor sobre la imagen intermedia, ejecuta el comando
+y detiene la imagen intermedia.
+
+Para invalidar la cache basta con cambiar el orden de las instrucciones, por lo tanto
+vuelve a generar todo.
+
+Una buena practica para evitar que docker cree una imagen por cada instruccion es
+usar el && para contatenar las instrucciones. De tal forma crea una capa por
+todas las instrucciones.
+
+RUN apt-get install -y vim && apt-get install -y curl
