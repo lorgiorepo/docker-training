@@ -1,0 +1,29 @@
+Docker history
+
+El docker history muestra las capas de las cuales se encuentra creada una imagen.
+Se puede observar cada capa, cuando fue creada, su tamaño y el comando.
+
+Se puede hacer una comparativa con el comando docker images y el history.
+
+$ docker images
+$ docker history ubuntu_vim_curl
+
+Si se desea ver todo el comando se puede usar la bandera --no-trunc
+
+$ docker history --no-trunc ubuntu_vim_curl
+
+Para resolver problemas entre capas intermedias, se pueden ejecutar contenedores
+e inspeccionar si se realizo dicha instalacion, ejemplo:
+
+Revisamos el history de una imagen creada.
+
+$ docker history ubuntu_vim_curl
+
+IMAGE           CREATED     CREATED BY      SIZE        COMMENT
+5993c6592921
+fed3aaf492c3
+<missing>
+
+Las imagenes missing son imagenes descontinuadas por docker.
+
+$ docker run -ti fed3aaf492c3 bash
