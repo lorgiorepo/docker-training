@@ -1,0 +1,34 @@
+Docker CMD
+
+La instruccion CMD define el comando por defecto a ejecutar cuando se crea el contenedor.
+Se puede usar tanto en formato Shell como Exec
+Solo puede especificarse una sola vez en el Dockerfile, si existe varias veces, solo la ultima sera tomada en cuenta
+Puede ser anulado manualmente via el docker CLI
+
+Ejemplo:
+
+1. Creando una imagen desde un Dockerfile con CMD. El formato especificado en CMD es Shell
+
+FROM ubuntu
+CMD ping -c 10 www.google.com
+
+docker build -t ubuntu_ping .
+
+
+2. Ejecutando el contenedor
+
+docker run ubuntu_ping
+
+3. Sobreescribiendo la ejecucion por defecto.
+
+docker build -ti ubuntu_ping bash
+
+4. Formato Exec
+
+FROM ubuntu
+CMD ["ping", "-c", "5", "www.google.com"]
+
+5. Building de docker y Ejecutando
+
+docker build -t ubuntu_ping .
+docker run ubuntu_pin
