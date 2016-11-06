@@ -1,0 +1,39 @@
+Docker ENTRYPOINT
+
+Define el punto de entrada con el comando que el contenedor correra cuando se crea
+Los argumentos de runtime son enviados como parametros a la instruccion ENTRYPOINT
+Tambien posee forma de Exec y Shell
+El contenedor funciona a modo de ejecutable, es decir un binario interactivo
+
+Ejemplo:
+
+1. Creando un Dockerfile
+
+FROM ubuntu
+ENTRYPOINT ["ping"] 
+
+2. Creando el contenedor y ejecutandolo
+
+docker build -t ubuntu_ping .
+docker run ubuntu_ping
+
+3. En este punto el contenedor te pedira los parametros para el ping
+docker run ubuntu_ping -c 2 www.google.com
+
+4. Meclando la instruccion CMD con ENTRYPOINT
+
+FROM ubuntu
+CMD ["-c", "2", "www.google.com"]
+ENTRYPOINT ["ping"]
+
+5. Creando el contenedor y ejecutandolo. En este punto ya no pide los parametros del ping ya que el CMD se los pasa
+
+docker build -t ubuntu_ping .
+docker run ubuntu_ping
+
+6. Sobreescribiendo el CMD
+
+docker run ubuntu_ping -c 2 wwww.yahoo.com
+
+
+DATO: Si necesitan usar los comandos CMD y EXEC en conjunto por reestriccion de docker se tiene que usar el formato Exec
