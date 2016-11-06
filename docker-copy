@@ -1,0 +1,22 @@
+Docker copy
+
+Permite copiar nuestro codigo y ejecutar nuestra aplicacion
+Facilita la copia de archivos de configuracion
+
+COPY <SRC> ... <SRC> <DST>
+
+Ejemplo:
+
+1. Creando el Dockerfile, para ello en el mismo contexto creamos un archivo test.txt con algun contenido
+
+FROM ubuntu
+COPY test.txt /tmp/lorgio
+CMD cat /tmp/lorgio
+
+2. Building de la imagen
+
+docker build -t ubuntu_hola .
+
+3. Ejecutando el contenedor
+
+docker run ubuntu_hola
