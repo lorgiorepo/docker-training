@@ -1,0 +1,17 @@
+Dockerizando una aplicacion
+
+1. Creando el contenido del Dockerfile, considerando el app.py y requirements.txt estan en el mismo contexto
+
+FROM python:2.7
+COPY app.py requirements.txt /app/
+RUN pip install -r /app/requirements.txt
+CMD python /app/app.py
+EXPOSE 5000
+
+2. Creando la imagen
+
+docker build -t app .
+
+3. Ejecutando el contenedor en modo demonio con la instruccion -d
+
+docker run -d app
