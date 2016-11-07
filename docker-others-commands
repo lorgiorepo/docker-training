@@ -1,0 +1,49 @@
+Docker WORKDIR::
+
+Ejemplo:
+
+FROM python:2.7
+WORKDIR /app
+COPY app.py requirements.txt ./
+RUN pip install -r requirements.txt
+CMD python app.py
+EXPOSE 5000
+
+
+Docker ADD::
+Posee el mismo formato que la instruccion COPY y ambos operan de manera muy similar
+ADD tiene la habilidad de descomprimir archivos automaticamente
+ADD puede obtener archivos de una URL 
+
+Ejemplo:
+
+´´Dockerfile
+FORM ubuntu
+RUN apt-get update && apt-get install -y jp2a
+ADD http://url-de-imagen/imagen.jpg /tmp/img.jpg
+ENV TERM xterm-256color
+CMD jp2a --size=60x40 /tmp/img.jpg
+´´
+
+docker build -t add .
+
+Docker MAINTAINER::
+Agrega metadata al dockerfile sobre el dueño de la imagen
+
+Docker ENV::
+Permite añadir variables de entorno al contenedor
+
+Docker LABEL::
+Permite agregar etiquetas al contenedor
+
+
+FROM ubuntu
+MAINTAINER lorgio@oper.com
+ENV hola mundo
+LABEL key value
+
+docker build -t env .
+docker run env
+
+docker ps
+docker inspect [id-contenedor]
