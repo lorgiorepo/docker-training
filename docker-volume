@@ -1,0 +1,48 @@
+Docker Volumes
+
+Un directorio designado en el contenedor en el cual se persiste informacion independientemente 
+del ciclo de vida del contenedor.
+Los cambios en un volumen son excluidos cuando se guarda una imagen.
+La informacion se persiste aunque se elimine el contenedor
+Pueden estar mapeados a un directorio del host
+Pueden compartirse entre contenedores
+Las instrucciones RUN del Dockerfile no modifican la informacion de los volumenes
+
+Ejemplos:
+
+1. Listando los volumenes:
+$ docker volume ls
+
+2. En caso hayan volumenes creados y se requieran eliminar:
+$ docker volume rm $(docker volume ls -q)
+
+3. Creando un volumen
+$ docker volume create --name prueba
+
+4. Ejecutando un contenedor con un volumen
+$ docker run -ti -v prueba:/prueba ubuntu bash
+
+5. Creando un archivo en el volumen y salimos
+$ cd /prueba
+$ touch archivo.txt
+$ exit
+
+6. Creando otro contenedor con el mismo volumen
+$ docker run -ti -v prueba:/prueba ubuntu bash
+
+7. Revisando el directorio prueba del volumen para ver el arhivo.txt
+$ cd /prueba
+$ ls
+
+8. Revisando el directorio del host donde se encuentra el volumen
+$ docker volume inspect prueba
+
+9. Creando un volumen anonimo, con esto nosotros elegimos donde va estar alojado el volumen,
+pero hay que tener en cuenta que sigue siendo un volumen anonimo
+$ docker run -ti -v /home/lorgio/test:/prueba ubuntu bash
+
+NOTAS:
+- Si creo o modifico la informacion en el directorio del volumen del host, este
+se refleja en todos los contenedores creados con el volumen.
+- Al especificar la instruccion VOLUME en un Dockerfile, docker creara un volumen
+anonimo con un nombre aleatoreo.
