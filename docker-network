@@ -1,0 +1,110 @@
+Networking
+
+- Cuando docker inicia, crea una interfaz virtual docker0 en el equipo de host.
+- docker0 es asignado un rango de IP de la subnet privada definida por la RFC 1918.
+
+El modelo de red de docker es el siguiente:
+
+Hostname: 
+En el reside la interfaz docker0, cada vez que se crea un contendor, docker crea una 
+interfaz virtual "virtual ethernet" que hace de bridge entre el contenedor y la interfaz docker0.
+
+DOCKER NETWORK
+
+Comandos Basicos:
+
+Docker network nos permite interfactuar con las redes en docker y los contenedores dentro de ellas.
+
+Se pueden definir diferentes jerarquias de redes.
+
+Docker utiliza la bandera "--net" para especificar una red cuando se crea un contendor.
+Docker utiliza la bandera "--link" para poder establecer una conexion entre dos contenedores.
+
+$ docker network ls
+
+Sirve para ver todas las redes en docker. 
+En ella se visualiza la red BRIDGE que es donde residen todos los contenedores por defecto.
+La interfaz HOST: permite que el contenedor comparta la misma ip del host.
+
+Al especificar que un contenedor estara en la interfaz o red HOST este toma el mismo stack de conexion
+que el host donde reside.
+
+$ docker run -it --net=host ubuntu bash
+
+
+Creando una red:
+
+Se usa el comando "docker network create"
+Hay dos tipos de redes que pueden crearse "Bridge" y "Overlay"
+Una red bridge es igual a una red docker0.
+Una red overlay permite desplegar contenedores en diferentes host fisicos y que los mismos se 
+comuniquen de manera directa.
+Los contenedores se pueden conectar a mas de una red mediante el comando "docker network connect    "
+
+
+Ejemplo probando conexion entre contenedores por IP:
+
+1. Creando una red, por defecto la interfaz es bridge, tambien se le puede asignar overlay con el comando --driver.
+$ docker network create mi_red
+
+2. Visualizando la red
+$ docker network ls
+
+3. En este punto creamos dos contenedores donde por defecto seran asignados a la red bridge, por lo tanto se 
+podra realizar un ping.
+(terminal 1)$ docker run -ti ubuntu bash
+(terminal 2)$ docker run -ti ubuntu bash
+(terminal 1)$ ip a
+(terminal 2)$ ping [ip de terminal 1]
+
+Ejemplo probando conexion entre contenedores por nombre:
+
+1. En este punto se crearan dos contenedores, donde a uno le asinaremos un nombre para identificarlo y al otro
+lo asociaremos mediante el comando "--link"
+
+$ docker run -ti --name redis ubuntu bash
+$ docker run -ti --link redis ubuntu bash
+
+$ ping redis
+
+La funcion del link tiene un cambio en la nueva version de docker.
+
+En la version 1.9 (antigua) de docker, por defecto con los links publica una variable el nombre del contenedor
+en el archivo /etc/host.
+
+Ahora en la verison 1.10 en adelante docker por defecto hace esto solo en la red bridge.
+Pero si hacemos ping por nombre se llega al contendor destino, esto lo hace gracias a que docker crea un DNS interno.
+Esto se puede ver en el /etc/resolv.conf por lo tanto todos los nombres lo registra en el DNS.
+
+Ejemplo creando tres contenedores, dos de ellos en redes distintas y el tercero en ambas redes.
+
+1. Se crea el contenedor 1 en la red por defecto bridge.
+$ docker run -ti --name container1 ubuntu bash
+
+2. Se crea el contenedor 3 en la red mi_red
+$ docker run -ti --name container3 --net=mi_red ubuntu bash
+
+3. Creando el contenedor 2 en la red por defecto (bridge)
+$ docker run -ti --name container2 ubuntu bash
+
+4. Asociando el contenedor2 a la red mi_red
+$ docker network connect bridge container2
+
+5. Revisando que los contenedores se encuentren en las redes
+$ docker network inspect bridge
+$ docker network inspect mi_red
+
+Exponiendo contenedores a una red externa:
+
+Los contenedores en una red bridge solo pueden ser accedidos por otros contenedores en la misma red.
+Para hacer que un contenedor pueda ser accedido desde el exterior, es necesario mapear sus puertos
+mediante el host.
+El contenedor puede ser accedido mediante el puerto mapeado en el host.
+
+Ejemplo:
+
+1. Ejecutando un contenedor que escucha en un puerto 5000 a un puerto aleatorio fuera del contenedor
+$ docker run -d -P --link redis app
+
+2. Ejecutando un contenedor que escucha en un puerto 5000 a un puerto que nosotros especificamos.
+$ docker run -d -p 80:5000 --link redis app
