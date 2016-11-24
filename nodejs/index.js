@@ -4,9 +4,9 @@ var express = require('express'),
 
 var app = express();
 
-console.log(process.env.REDIS_PORT_6379_TCP_ADDR + ':' + process.env.REDIS.PORT_6379_TCP_PORT);
+console.log(process.env.REDIS_PORT_6379_TCP_ADDR + ':' + process.env.REDIS_PORT_6379_TCP_PORT);
 
-var client = redis.createClient('6379', 'redis');
+var client = redis.createClient('6379', 'redisio');
 
 app.get('/', function(req, res, next) {
     client.incr('counter', function(err, counter) {
