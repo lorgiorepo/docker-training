@@ -1,0 +1,22 @@
+CREACION DE IMAGENES:
+
+Sistema de capas entre imagenes.
+Docker crea una ultima capa modo escritura para los contenedores.
+Las imagenes padre son de solo lectura.
+Todos los cambios son realizados en la capa de escritura.
+
+CREANDO IMAGENES:
+
+Existen tres modos para crear imagenes:
+- Hacer "commit" de los contenidos de un contenedor.
+- Construir una imagen basandonos en un Dockerfile.
+- Importar un archivo TAR a docker con el contenido de una imagen.
+
+(terminal 1)$ docker run -ti ubuntu bash
+(container 1)$ touch killers
+(terminal 2)$ docker diff [id contenedor]
+(terminal 2)$ docker commit [id contenedor] [nombre de imagen]
+(terminal 2)$ docker images
+(terminal 1)$ docker run -ti [nombre de imagen] bash
+(container 1)$ ls
+
