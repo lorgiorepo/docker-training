@@ -1,0 +1,32 @@
+Docker esta hecho con el lenguaje de programacion GO.
+
+Desde linux:
+https://get.docker.com/
+
+Establece permisos de ejecucion de docker
+$sudo usermod -aG docker ubuntu
+
+Desde window:
+Habilitar la BIOS vm technology
+Instalar desde toolbox
+
+DOCKER ENGINE:
+
+Docker en linux:
+
+Docker client y Docker daemon son los componentes, ambos interactuan a traves de un API
+
+Docker en windows y linux:
+
+Docker crea una virtual machine liviana, el Docker client se conecta al Docker daemon que se encuentra
+en la maquina virtual.
+
+Validando la instalacion:
+$ docker-machine ls
+$ docker info
+$ docker version
+
+
+Creando nuestro primer contenedor:
+
+$ docker run hello-world
