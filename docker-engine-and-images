@@ -1,0 +1,46 @@
+CONTAINER AND IMAGES:
+
+1. Imagenes:
+
+Plantilla de solo lectura para crear nuestros contenedores.
+Creada por nosotros u otros usuarios de la comunidad.
+Se pueden guardar en un registro interno o publico.
+Las imagenes estan hechas en capas, estas estan fechas por una imagen base que normalemnte es de SO.
+Cada herramienta que se necesite crea una capa de imagen mediante el mecanismo copy and write.
+
+2. Contenedores:
+
+Aplicacion aislada.
+Contiene todo lo necesario para ejecutar nuestra aplicacion.
+Basados en una o mas imagenes.
+
+IMAGES:
+
+Sitio web de imagenes publicas ( https://hub.docker.com )
+Utilizacion de docker CLI "docker search"
+Imagenes locales.
+Las imagenes siguen el formato repositorio:tag
+
+DESCARGANDO IMAGENES:
+
+Para descargar una imagen del repositorio externo, se utiliza el comando "docker pull".
+Cuando se ejecuta un contenedor con el comando "docker run" las imagenes son descargadas
+automaticamente si no se encuentran en el repositorio local.
+
+CICLO DE VIDA DE LOS CONTENEDORES:
+
+Ciclo de vida basico:
+Se crea el contenedor a partir de una imagen.
+Se ejecuta un proceso determinado en el contenedor.
+El proceso finaliza y el contendor se detiene.
+Se destruye el contenedor.
+
+Ciclo de vida avanzado:
+Se crea el contendor a partir de una imagen-
+Se ejecuta un proceso determinado en el contenedor.
+Realizar acciones dentro del contendor.
+Detener el contendor.
+Lanzar el contenedor nuevamente.
+
+CREANDO NUESTRO PRIMER CONTENDOR:
+
