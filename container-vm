@@ -1,0 +1,20 @@
+Container VM
+
+Docker funciona con una tecnologia que se llama contenedores linux y esta formada por:
+
+Namespaces: Permite a la aplicacion que se ejecuta en el contenedor una vista sobre los recursos de red.
+Cgroups: Limitan y miden los recursos del SO
+Chroot: Permite tener al contenedor una vista del filesystem para el mismo.
+
+Container:
+
+Los contenedores son mas livianos que las VM ya que no tiene un hipervisor, ya que utiliza 
+directaente el kernel del so. Los contenedores no reemplazan a la VM.
+
+No es necesario instalar un OS por contenedor.
+
+Menor utilizacion de recursos.
+
+Mayor cantidad de contenedores por equipo fisico.
+
+Mejor portabilidad.
