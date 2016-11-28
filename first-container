@@ -1,0 +1,127 @@
+CREANDO NUESTRO PRIMER CONTENEDOR:
+
+Utilizando el comando "docker run"
+El comando "docker run" realiza 2 acciones, primero crea el contenedor con la imagen especificada, 
+posteriormente se ejecuta el contenedor.
+
+Sintaxis:
+docker run [opciones] [imagen] [comando] [args]
+
+El formato de la imagen es: repository:tag
+
+LISTANDO CONTENEDORES:
+
+Utilizar docker ps para listar los contendores.
+La bamdera -a lista todos los contenedores (inclusive aquellos que se encuentran detenidos)
+
+$ docker ps -a
+
+CONTENEDORES INTERACTIVOS:
+
+Utilizar las banderas -i y -t en el comando docker run.
+La bandera -i le indica a docker utilizar el STDIN del contenedor.
+La bandera -t indica que se requiere de una pseudo terminal.
+NOTA: Es necesario ejecutar un proceso de terminal en el contenedor (sh / bash / zsh, etc).
+
+$ docker run -it ubuntu bash
+container$ touch killers
+container$ ps -fea //El proceso 1 es el que indica el inicio del contenedor, para salir hay que matar el proceso 1.
+
+$ docker run -it ubuntu bash
+container$ ls
+
+Para salir de un contenedor interactivo presiona:
+CONTROL + P + Q
+
+Volve a entrar en un contendor:
+docker attach [id contenedor]
+
+ID DE CONTENEDORES:
+
+Los contenedores pueden referenciarse utilizando su ID de contenedor o un nombre.
+Utiliza la bandera --no-trunc en docker ps para obtener el formato extendido de ID.
+$ docker ps -a --no-trunc
+
+
+LISTANDO CON FILTRO DE CONTENDORES:
+
+La bandera "--filter" agrega condiciones de filtrado.
+El estado puede ser (Restarting, Running, Exited, Paused).
+Para especificar multiples condiciones utilizar la bandera --filter por cada condicion.
+Otros filtros: id, label, name, exited, status, ancestor, isolation.
+
+$ docker ps -a --filter="exited=0"
+
+Iniciar un contendor
+$ docker ps -a --filter="exited=1"
+
+EJECUTANDO CONTENDORES DE FONDO:
+
+Correr de fondo (background) o como demonio
+Utiliza la bandera -d
+Para ver el output utilizar el comando "docker logs [id / contendor] [nombre de contenedor]"
+
+$ docker run ubuntu ping -c 10 www.google.cl
+
+$ docker run -d ubuntu ping -c 10 www.google.cl
+$ docker ps
+$ docker ps -a
+$ docker start [id contenedor]
+
+Visualizando los logs del contenedor.
+
+$ docker logs [id contendor]
+
+Viendo el log en tiempo real.
+$ docker run -d ubuntu ping -c 10 www.google.cl
+$ docker logs [id contenedor]
+
+VINCULARSE A UN CONTENEDOR:
+
+Vincular a un contenedor, traera dicho contenedor al frente.
+El output del proceso 1 sera mostrado en pantalla.
+Utilizar "docket attach" [id contenedor] [nombre de contenedor]
+
+(terminal 1)$ docker run -it ubuntu bash
+(terminal 2)$ docker ps 
+
+DOCKER EXEC:
+
+"docker exec" habilita ejecutar procesos adicionales dentro del contenedor.
+Generalmente se utiliza para acceder a una terminal dentro de un contenedor en ejecucion.
+docker exec -it [id contenedor] [comando]
+Salir de la terminal no finaliza el contenedor.
+
+(terminal 1)$ docker run -it ubuntu bash
+(terminal 2)$ docker ps 
+(terminal 2)$ docker exec -it [id contenedor] bash
+(terminal 2)$ touch terminal2
+(terminal 1)$ ls
+
+
+LOGS DEL CONTENEDOR:
+
+El output del ID de proceso 1 del contenedor se puede ver utilizando el comando "docker logs"
+Muestra todo el log file desde que el contendor fue iniciado.
+Las banderas -f y --tail se utilizan para controlar la salida del log.
+
+$ docker run -d ubuntu ping -c 10 www.google.cl
+$ docker logs [id contenedor]
+
+ACCIONES SOBRE UN CONTENEDOR:
+
+"docker stop" y "docker kill" detienen un contenedor en ejecucion.
+"docker start" se utiliza para arrancar un contenedor en estado STOPPED o KILLED.
+La bandera "-a" en docker start se utilizar para adjuntarse automaticamente al contendor.
+
+(terminal 1)$ docker start -a [id contenedor]
+(terminal 2)$ docker pause [id contenedor]
+(terminal 2)$ docker unpause [id contenedor]
+
+$ docker inspect [id contenedor]
+
+ELIMINANDO CONTENEDORES:
+
+Por defecto solo pueden eliminarse contenedores detenidos
+Utilizar el comando "docker rm [id contenedor] [nombre de contenedor]"
+Para eliminar un contenedor que se encuentra en uso utilizar la bandera -f.
