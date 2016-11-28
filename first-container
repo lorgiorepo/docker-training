@@ -125,3 +125,5 @@ ELIMINANDO CONTENEDORES:
 Por defecto solo pueden eliminarse contenedores detenidos
 Utilizar el comando "docker rm [id contenedor] [nombre de contenedor]"
 Para eliminar un contenedor que se encuentra en uso utilizar la bandera -f.
+
+$ docker rm $(docker ps -a -q)
