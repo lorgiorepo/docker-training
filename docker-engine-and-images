@@ -42,5 +42,7 @@ Realizar acciones dentro del contendor.
 Detener el contendor.
 Lanzar el contenedor nuevamente.
 
-CREANDO NUESTRO PRIMER CONTENDOR:
-
+Probando comandos:
+$ docker images
+$ docker pull ubuntu
+$ docker pull ubuntu:14.04
